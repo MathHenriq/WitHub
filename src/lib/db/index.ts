@@ -21,6 +21,17 @@ export interface Database {
   listAllStudents(): Promise<Student[]>;
   getStudentByToken(token: string): Promise<Student | null>;
   getStudentById(id: string): Promise<Student | null>;
+  createTurma(name: string, weekdays: number[]): Promise<Turma>;
+  createStudent(input: {
+    turmaId: string;
+    name: string;
+    email: string;
+    grade: number;
+  }): Promise<Student>;
+  updateStudent(
+    id: string,
+    patch: Partial<Pick<Student, "name" | "email" | "grade" | "active" | "turmaId">>,
+  ): Promise<void>;
   getOrCreateSession(turmaId: string, date: string): Promise<Session>;
   listSessionsForTurma(turmaId: string): Promise<Session[]>;
   getAttendanceForSession(sessionId: string): Promise<AttendanceRecord[]>;

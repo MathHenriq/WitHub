@@ -11,31 +11,40 @@ export default async function ProfessorPage() {
 
   return (
     <main className="mx-auto w-full max-w-2xl px-6 py-10">
-      <header>
-        <Link href="/" className="text-sm text-blue-600 hover:underline">
+      <header className="flex items-center justify-between">
+        <Link href="/" className="text-sm text-white/60 hover:text-white">
           ← Início
         </Link>
-        <h1 className="mt-2 text-3xl font-extrabold">Chamada-relâmpago</h1>
-        <p className="mt-1 text-slate-600">
-          Escolha a turma. Todos vêm marcados como presentes — você só toca em
-          quem faltou.
-        </p>
+        <Link
+          href="/professor/gestao"
+          className="rounded-full glass px-4 py-1.5 text-sm font-semibold hover:bg-white/10"
+        >
+          ⚙️ Gerenciar
+        </Link>
       </header>
+
+      <h1 className="mt-5 text-3xl font-extrabold">
+        Chamada-<span className="text-gradient">relâmpago</span>
+      </h1>
+      <p className="mt-1 text-white/60">
+        Escolha a turma. Todos vêm marcados como presentes — você só toca em quem
+        faltou.
+      </p>
 
       <div className="mt-6 grid gap-3">
         {turmas.map((turma) => (
           <Link
             key={turma.id}
             href={`/professor/${turma.id}`}
-            className="flex items-center justify-between rounded-2xl border border-slate-200 p-5 transition hover:border-blue-400 hover:shadow-sm"
+            className="flex items-center justify-between glass rounded-2xl p-5 transition hover:-translate-y-0.5 hover:bg-white/10"
           >
             <span>
               <span className="block text-lg font-bold">{turma.name}</span>
-              <span className="block text-sm text-slate-500">
+              <span className="block text-sm text-white/50">
                 {turma.weekdays.map((d) => WEEKDAY_NAMES[d]).join(" · ")}
               </span>
             </span>
-            <span className="text-2xl">→</span>
+            <span className="text-2xl text-white/40">→</span>
           </Link>
         ))}
       </div>

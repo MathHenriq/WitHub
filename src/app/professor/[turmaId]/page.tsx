@@ -34,7 +34,7 @@ export default async function ChamadaPage({
 
   return (
     <main className="mx-auto w-full max-w-2xl px-5 py-8">
-      <Link href="/professor" className="text-sm text-blue-600 hover:underline">
+      <Link href="/professor" className="text-sm text-white/60 hover:text-white">
         ← Turmas
       </Link>
       <h1 className="mt-2 text-2xl font-extrabold">{turma.name}</h1>

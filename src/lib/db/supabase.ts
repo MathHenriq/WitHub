@@ -69,6 +69,39 @@ export const supabaseDb: Database = {
     const { data } = await sb().from("students").select("*").eq("id", id).maybeSingle();
     return data ? mapStudent(data) : null;
   },
+  async createTurma(name, weekdays) {
+    const { data, error } = await sb()
+      .from("turmas")
+      .insert({ name, weekdays })
+      .select("*")
+      .single();
+    if (error) throw error;
+    return mapTurma(data);
+  },
+  async createStudent(input) {
+    const { data, error } = await sb()
+      .from("students")
+      .insert({
+        turma_id: input.turmaId,
+        name: input.name,
+        email: input.email,
+        grade: input.grade,
+      })
+      .select("*")
+      .single();
+    if (error) throw error;
+    return mapStudent(data);
+  },
+  async updateStudent(id, patch) {
+    const row: Record<string, unknown> = {};
+    if (patch.name !== undefined) row.name = patch.name;
+    if (patch.email !== undefined) row.email = patch.email;
+    if (patch.grade !== undefined) row.grade = patch.grade;
+    if (patch.active !== undefined) row.active = patch.active;
+    if (patch.turmaId !== undefined) row.turma_id = patch.turmaId;
+    const { error } = await sb().from("students").update(row).eq("id", id);
+    if (error) throw error;
+  },
   async getOrCreateSession(turmaId, date) {
     const existing = await sb()
       .from("sessions")

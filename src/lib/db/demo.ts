@@ -146,6 +146,28 @@ export const demoDb: Database = {
   async getStudentById(id) {
     return store.students.find((s) => s.id === id) ?? null;
   },
+  async createTurma(name, weekdays) {
+    const turma: Turma = { id: `t-${store.turmas.length + 1}-${Date.now()}`, name, weekdays };
+    store.turmas.push(turma);
+    return turma;
+  },
+  async createStudent(input) {
+    const student: Student = {
+      id: `s-${store.students.length + 1}-${Date.now()}`,
+      turmaId: input.turmaId,
+      name: input.name,
+      email: input.email,
+      grade: input.grade,
+      hubToken: `tok-${Math.random().toString(36).slice(2, 14)}`,
+      active: true,
+    };
+    store.students.push(student);
+    return student;
+  },
+  async updateStudent(id, patch) {
+    const student = store.students.find((s) => s.id === id);
+    if (student) Object.assign(student, patch);
+  },
   async getOrCreateSession(turmaId, date) {
     let session = store.sessions.find((s) => s.turmaId === turmaId && s.date === date);
     if (!session) {
