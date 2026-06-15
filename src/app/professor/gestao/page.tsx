@@ -1,12 +1,14 @@
 import Link from "next/link";
 import { getDb } from "@/lib/db";
 import { NewStudentForm, NewTurmaForm, StudentRow } from "./GestaoClient";
+import { requireProfessor } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 
 const WEEKDAY_NAMES = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
 
 export default async function GestaoPage() {
+  await requireProfessor();
   const db = await getDb();
   const turmas = await db.listTurmas();
   const turmasComAlunos = await Promise.all(

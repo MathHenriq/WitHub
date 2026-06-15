@@ -1,11 +1,14 @@
 import Link from "next/link";
 import { getDb } from "@/lib/db";
+import { requireProfessor } from "@/lib/auth";
+import { logoutAction } from "./login/actions";
 
 export const dynamic = "force-dynamic";
 
 const WEEKDAY_NAMES = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
 
 export default async function ProfessorPage() {
+  await requireProfessor();
   const db = await getDb();
   const turmas = await db.listTurmas();
 
@@ -15,12 +18,22 @@ export default async function ProfessorPage() {
         <Link href="/" className="text-sm text-white/60 hover:text-white">
           ← Início
         </Link>
-        <Link
-          href="/professor/gestao"
-          className="rounded-full glass px-4 py-1.5 text-sm font-semibold hover:bg-white/10"
-        >
-          ⚙️ Gerenciar
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link
+            href="/professor/gestao"
+            className="rounded-full glass px-4 py-1.5 text-sm font-semibold hover:bg-white/10"
+          >
+            ⚙️ Gerenciar
+          </Link>
+          <form action={logoutAction}>
+            <button
+              type="submit"
+              className="rounded-full glass px-4 py-1.5 text-sm font-semibold text-white/70 hover:bg-white/10 hover:text-white"
+            >
+              Sair
+            </button>
+          </form>
+        </div>
       </header>
 
       <h1 className="mt-5 text-3xl font-extrabold">

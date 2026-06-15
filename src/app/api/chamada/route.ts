@@ -1,10 +1,15 @@
 import { NextResponse } from "next/server";
 import { getDb } from "@/lib/db";
+import { isProfessor } from "@/lib/auth";
 import type { AttendanceRecord, AttendanceStatus } from "@/lib/types";
 
 const VALID: AttendanceStatus[] = ["present", "absent", "justified"];
 
 export async function POST(req: Request) {
+  if (!(await isProfessor())) {
+    return NextResponse.json({ error: "não autorizado" }, { status: 401 });
+  }
+
   let body: unknown;
   try {
     body = await req.json();

@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { getDb } from "@/lib/db";
+import { requireProfessor } from "@/lib/auth";
 
 export interface ActionResult {
   ok: boolean;
@@ -12,6 +13,7 @@ export async function createTurmaAction(
   name: string,
   weekdays: number[],
 ): Promise<ActionResult> {
+  await requireProfessor();
   if (!name.trim()) return { ok: false, error: "Dê um nome à turma." };
   const db = await getDb();
   await db.createTurma(name.trim(), weekdays);
@@ -26,6 +28,7 @@ export async function createStudentAction(input: {
   email: string;
   grade: number;
 }): Promise<ActionResult> {
+  await requireProfessor();
   if (!input.name.trim()) return { ok: false, error: "Nome é obrigatório." };
   if (!input.email.includes("@")) return { ok: false, error: "E-mail inválido." };
   if (input.grade < 1 || input.grade > 9)
@@ -42,6 +45,7 @@ export async function createStudentAction(input: {
 }
 
 export async function deactivateStudentAction(id: string): Promise<ActionResult> {
+  await requireProfessor();
   const db = await getDb();
   await db.updateStudent(id, { active: false });
   revalidatePath("/professor/gestao");
