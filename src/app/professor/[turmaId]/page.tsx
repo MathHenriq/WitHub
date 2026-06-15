@@ -4,6 +4,7 @@ import { getDb } from "@/lib/db";
 import { todayISO } from "@/lib/date";
 import type { AttendanceStatus } from "@/lib/types";
 import { ChamadaClient, type RosterRow } from "./ChamadaClient";
+import { requireProfessor } from "@/lib/auth";
 
 export default async function ChamadaPage({
   params,
@@ -12,6 +13,7 @@ export default async function ChamadaPage({
   params: Promise<{ turmaId: string }>;
   searchParams: Promise<{ date?: string }>;
 }) {
+  await requireProfessor();
   const { turmaId } = await params;
   const { date } = await searchParams;
   const dateISO = date || todayISO();
