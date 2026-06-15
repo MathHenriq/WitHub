@@ -36,9 +36,17 @@ export default async function ChamadaPage({
 
   return (
     <main className="mx-auto w-full max-w-2xl px-5 py-8">
-      <Link href="/professor" className="text-sm text-white/60 hover:text-white">
-        ← Turmas
-      </Link>
+      <div className="flex items-center justify-between">
+        <Link href="/professor" className="text-sm text-white/60 hover:text-white">
+          ← Turmas
+        </Link>
+        <Link
+          href={`/professor/${turmaId}/painel`}
+          className="rounded-full glass px-4 py-1.5 text-sm font-semibold hover:bg-white/10"
+        >
+          📊 Painel
+        </Link>
+      </div>
       <h1 className="mt-2 text-2xl font-extrabold">{turma.name}</h1>
 
       <ChamadaClient
