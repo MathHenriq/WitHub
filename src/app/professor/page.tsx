@@ -46,19 +46,30 @@ export default async function ProfessorPage() {
 
       <div className="mt-6 grid gap-3">
         {turmas.map((turma) => (
-          <Link
+          <div
             key={turma.id}
-            href={`/professor/${turma.id}`}
-            className="flex items-center justify-between glass rounded-2xl p-5 transition hover:-translate-y-0.5 hover:bg-white/10"
+            className="flex items-stretch gap-2"
           >
-            <span>
-              <span className="block text-lg font-bold">{turma.name}</span>
-              <span className="block text-sm text-white/50">
-                {turma.weekdays.map((d) => WEEKDAY_NAMES[d]).join(" · ")}
+            <Link
+              href={`/professor/${turma.id}`}
+              className="flex flex-1 items-center justify-between glass rounded-2xl p-5 transition hover:-translate-y-0.5 hover:bg-white/10"
+            >
+              <span>
+                <span className="block text-lg font-bold">{turma.name}</span>
+                <span className="block text-sm text-white/50">
+                  {turma.weekdays.map((d) => WEEKDAY_NAMES[d]).join(" · ")}
+                </span>
               </span>
-            </span>
-            <span className="text-2xl text-white/40">→</span>
-          </Link>
+              <span className="text-sm text-white/40">Chamada →</span>
+            </Link>
+            <Link
+              href={`/professor/${turma.id}/painel`}
+              title="Painel de presenças"
+              className="flex items-center justify-center glass rounded-2xl px-4 text-xl transition hover:-translate-y-0.5 hover:bg-white/10"
+            >
+              📊
+            </Link>
+          </div>
         ))}
       </div>
     </main>
